@@ -1,3 +1,4 @@
+import argparse
 import os
 from datetime import datetime
 from xml.etree import ElementTree
@@ -5,25 +6,27 @@ from xml.etree import ElementTree
 import requests
 from discord import Embed, SyncWebhook
 
-from config import WEBHOOK_URL
-
 ARCHIVE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "events.txt")
 
 RED = 0xFF0000
 GREEN = 0x00FF00
 
 
-def main():
-    if WEBHOOK_URL == "YOUR DISCORD WEBHOOK":
-        print("You must add your Discord Webhook to config.py")
-        quit()
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("webhook_url", type=str, help="Discord Webhook")
+    args = parser.parse_args()
+    return args.webhook_url
 
+
+def main():
+    webhook_url = parse_arguments()
     past_events = []
     if os.path.exists(ARCHIVE_FILE):
         with open(ARCHIVE_FILE, "r") as f:
             past_events = f.read().splitlines()
 
-    webhook = SyncWebhook.from_url(WEBHOOK_URL)
+    webhook = SyncWebhook.from_url(webhook_url)
     webhook.edit(name="Steam Card Exchange Events RSS")
     rss_url = "https://www.steamcardexchange.net/include/rss/events.xml"
 
