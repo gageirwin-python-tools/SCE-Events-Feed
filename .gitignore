@@ -152,5 +152,4 @@ cython_debug/
 #.idea/
 
 events.txt
-config.py
 run.bat
