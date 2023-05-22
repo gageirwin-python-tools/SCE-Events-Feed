@@ -153,3 +153,4 @@ cython_debug/
 
 events.txt
 run.bat
+*.log
