@@ -21,6 +21,8 @@ def parse_arguments():
 
 def main():
     webhook_url = parse_arguments()
+    webhook_username = "SCE RSS"
+    webhook_avatar_url = "https://www.steamcardexchange.net/favicon-256x256.png"
     past_events = []
     if os.path.exists(ARCHIVE_FILE):
         with open(ARCHIVE_FILE, "r") as f:
@@ -35,7 +37,7 @@ def main():
         embed_dict = {
             "author": {
                 "name": f"Steam Card Exchange Events RSS",
-                "url": "https://www.steamcardexchange.net/include/rss/events.xml",
+                "url": rss_url,
                 "icon_url": "https://www.steamcardexchange.net/favicon-256x256.png",
             },
             "title": f"Error: {response.status_code} {response.reason}",
@@ -43,8 +45,8 @@ def main():
             "color": RED,
         }
         webhook.send(
-            username="SCE RSS",
-            avatar_url="https://www.steamcardexchange.net/favicon-256x256.png",
+            username=webhook_username,
+            avatar_url=webhook_avatar_url,
             embed=Embed.from_dict(embed_dict),
         )
         quit()
@@ -61,40 +63,35 @@ def main():
         if title in past_events:
             continue
 
-        fields = []
-        fields.append(
-            {
-                "name": "Release Date:",
-                "value": item.find("pubDate").text,
-                "inline": False,
-            }
-        )
-        fields.append(
-            {
-                "name": "Links:",
-                "value": f"[**Steam Store**](https://store.steampowered.com/app/{appid})\n[**Game Hub**](https://steamcommunity.com/app/{appid})\n[**Point Shop**](https://store.steampowered.com/points/shop/app/{appid})\n[**Steam Market**](https://steamcommunity.com/market/search?appid=753&category_753_Game%5B%5D=tag_app_{appid})",
-                "inline": False,
-            }
-        )
-
         embed_dict = {
             "author": {
                 "name": f"Steam Card Exchange Events RSS",
-                "url": "https://www.steamcardexchange.net/include/rss/events.xml",
+                "url": rss_url,
                 "icon_url": "https://www.steamcardexchange.net/favicon-256x256.png",
             },
             "title": title,
             "url": link,
             "color": GREEN,
-            "fields": fields,
+            "fields": [
+                {
+                    "name": "Release Date:",
+                    "value": item.find("pubDate").text,
+                    "inline": False,
+                },
+                {
+                    "name": "Links:",
+                    "value": f"[**Steam Store**](https://store.steampowered.com/app/{appid})\n[**Game Hub**](https://steamcommunity.com/app/{appid})\n[**Point Shop**](https://store.steampowered.com/points/shop/app/{appid})\n[**Steam Market**](https://steamcommunity.com/market/search?appid=753&category_753_Game%5B%5D=tag_app_{appid})",
+                    "inline": False,
+                },
+            ],
             "thumbnail": {"url": banner_url},
             "image": {"url": banner_url},
             "timestamp": datetime.utcnow().isoformat(),
         }
 
         webhook.send(
-            username="SCE RSS",
-            avatar_url="https://www.steamcardexchange.net/favicon-256x256.png",
+            username=webhook_username,
+            avatar_url=webhook_avatar_url,
             embed=Embed.from_dict(embed_dict),
         )
 
