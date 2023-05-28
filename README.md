@@ -1,5 +1,5 @@
-# SCE Events RSS Discord Webhook
- A Python application that processes steamcardexchange.net events RSS feed and sends notifications using Discord webhooks.
+# SCE Events Feed
+ A Python application that processes [www.steamcardexchange.net](www.steamcardexchange.net) Events Feed and sends a notification using Discord webhooks.
 
 ## Usage
 Install requirements
@@ -8,8 +8,10 @@ pip install -r requirements.txt
 ```
 Run application
 ```bash
-python event_rss.py "YOUR DISCORD WEBHOOK URL"
+python event_rss.py [OPTIONS] "YOUR DISCORD WEBHOOK URL"
 ```
+## Options
+ - `--indefinitely` : Indefinitely run the application and check www.steamcardexchange.net Events Feed one minute after it is updated. (Feed updates every hour on the hour)
 ## Note
-- On the initial run it will send webhook messages for the last 15 events. These events will then be recorded in `events.txt` and won't be sent again.  
-- To have the application periodically run set up cron on linux or task scheduler on windows.
+- On the initial run it will send (15) webhooks for all events in the feed.
+- All sent events will be recorded in `events.txt` and won't be sent again.
