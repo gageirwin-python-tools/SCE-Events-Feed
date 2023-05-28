@@ -29,14 +29,14 @@ def main():
     webhook_username = "SCE Event Feed"
     sce_favicon = "https://www.steamcardexchange.net/favicon-256x256.png"
 
+    webhook = SyncWebhook.from_url(args.webhook_url)
+    rss_url = "https://www.steamcardexchange.net/include/rss/events.xml"
+
     while True:
         past_events = []
         if os.path.exists(ARCHIVE_FILE):
             with open(ARCHIVE_FILE, "r") as f:
                 past_events = f.read().splitlines()
-
-        webhook = SyncWebhook.from_url(args.webhook_url)
-        rss_url = "https://www.steamcardexchange.net/include/rss/events.xml"
 
         response = requests.get(rss_url)
 
