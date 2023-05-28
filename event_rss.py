@@ -18,7 +18,7 @@ def parse_arguments():
     parser.add_argument(
         "--indefinitely",
         action="store_true",
-        help="Indefinitely run the application and check www.steamcardexchange.net Events RSS feed one minute after it is updated. (feed updates every hour on the hour)",
+        help="Indefinitely run the application and check www.steamcardexchange.net Event Feed one minute after it is updated. (Feed updates every hour on the hour)",
     )
     parser.add_argument("webhook_url", type=str, help="Discord Webhook")
     return parser.parse_args()
